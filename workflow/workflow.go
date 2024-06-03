@@ -30,7 +30,7 @@ func MainProduceWorkflow(ctx workflow.Context) (string, error) {
 		if err != nil {
 			return "create sub produce workflow failed", err
 		}
-		log.Println(i, "workflow result is", result)
+		//log.Println(i, "workflow result is", result)
 	}
 	return fmt.Sprintf("create %d sub produce workflows", subProduceWorkflowNum), nil
 }

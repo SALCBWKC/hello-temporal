@@ -14,8 +14,8 @@ import (
 
 const (
 	// mock
-	produceDuration = 10 * time.Second
-	consumeDuration = 20 * time.Second
+	produceDuration = 1 * time.Minute
+	consumeDuration = 2 * time.Minute
 )
 
 var (
@@ -29,7 +29,8 @@ func Consume() {
 	for {
 		select {
 		case <-ticker.C:
-			consume(fmt.Sprintf("consume-cron-workflow-%d", time.Now().Unix()))
+			workflowID := fmt.Sprintf("consume-cron-workflow-%d", time.Now().Unix())
+			go consume(workflowID)
 		}
 	}
 }
@@ -40,7 +41,8 @@ func Produce() {
 	for {
 		select {
 		case <-ticker.C:
-			produce(fmt.Sprintf("produce-cron-workflow-%d", time.Now().Unix()))
+			workflowID := fmt.Sprintf("produce-cron-workflow-%d", time.Now().Unix())
+			go produce(workflowID)
 		}
 	}
 }
@@ -111,20 +113,20 @@ func consume(workflowID string) {
 	printResults(result, we.GetID(), we.GetRunID())
 }
 
-func terminateWorkflow(ctx context.Context, c client.Client, id string, ch <-chan string) {
+func terminateWorkflow(ctx context.Context, c client.Client, curID string, ch <-chan string) {
 	select {
 	case workflowID, ok := <-ch:
 		if ok {
 			desc, err := c.DescribeWorkflowExecution(ctx, workflowID, "")
 			if err != nil {
-				log.Println("describe failed", err)
+				log.Println(workflowID, "describe failed", err)
 				return
 			}
 			if desc.WorkflowExecutionInfo.Status.String() != "Running" {
-				log.Println(workflowID, "is not running")
+				log.Println(workflowID, "is not running while initiate", curID)
 				return
 			}
-			err = c.TerminateWorkflow(ctx, workflowID, "", "terminate by "+id)
+			err = c.TerminateWorkflow(ctx, workflowID, "", "terminate by "+curID)
 			if err != nil {
 				log.Println("terminate failed", workflowID)
 				return
