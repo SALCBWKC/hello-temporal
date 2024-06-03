@@ -106,7 +106,7 @@ func GroupConsume(ctx context.Context, topic string, nums int) ([]string, error)
 
 	res := make([]string, 0, nums)
 	for i := 0; i < nums; i++ {
-		m, err := r.ReadMessage(context.Background())
+		m, err := r.ReadMessage(ctx)
 		if err != nil {
 			log.Println("read message err", err)
 			break
