@@ -9,12 +9,16 @@ import (
 	"hello-world-temporal/app/lib"
 )
 
+const (
+	produceMsgNum = 1
+	consumeMsgNum = 1
+)
+
 func Produce(ctx context.Context) (string, error) {
 	topic := "test"
-	const msgNum = 5
-	messages := make([]string, 0, msgNum)
+	messages := make([]string, 0, produceMsgNum)
 
-	for i := 0; i < msgNum; i++ {
+	for i := 0; i < produceMsgNum; i++ {
 		messages = append(messages, fmt.Sprintf("%d gen a message %s", i, time.Now()))
 	}
 
@@ -22,14 +26,13 @@ func Produce(ctx context.Context) (string, error) {
 	if err != nil {
 		return "produce failed", err
 	}
-	return fmt.Sprintf("produce %d messages", msgNum), nil
+	return fmt.Sprintf("produce %d messages", produceMsgNum), nil
 }
 
 func Consume(ctx context.Context) (string, error) {
 	topic := "test"
-	const msgNum = 5
 
-	res, err := lib.GroupConsume(ctx, topic, msgNum)
+	res, err := lib.GroupConsume(ctx, topic, consumeMsgNum)
 	if err != nil {
 		return "consume failed", err
 	}

@@ -14,7 +14,7 @@ import (
 
 func Consume() {
 	// 模拟Cron逻辑，每20秒启动一个主工作流
-	ticker := time.NewTicker(20 * time.Second)
+	ticker := time.NewTicker(2 * time.Minute)
 	for {
 		select {
 		case <-ticker.C:
@@ -25,7 +25,7 @@ func Consume() {
 
 func Produce() {
 	// 模拟Cron逻辑，每10秒启动一个主工作流
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(1 * time.Minute)
 	for {
 		select {
 		case <-ticker.C:
