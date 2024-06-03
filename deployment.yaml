@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-deployment
+spec:
+  selector:
+    matchLabels:
+      app: hello-world-temporal
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hello-world-temporal
+    spec:
+      containers:
+        - name: hello-world-temporal
+          image: ghcr.io/salcbwkc/hello-world-temporal:latest
+          ports:
+            - containerPort: 8080

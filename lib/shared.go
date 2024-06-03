@@ -1,4 +1,4 @@
-package app
+package lib
 
 const (
 	ProduceTaskQueue = "PRODUCE_TASK_QUEUE"

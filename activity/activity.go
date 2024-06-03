@@ -1,4 +1,4 @@
-package app
+package activity
 
 import (
 	"context"
@@ -9,13 +9,13 @@ import (
 	"hello-world-temporal/app/lib"
 )
 
-func ProduceActivity(ctx context.Context) (string, error) {
+func Produce(ctx context.Context) (string, error) {
 	topic := "test"
 	const msgNum = 5
 	messages := make([]string, 0, msgNum)
 
 	for i := 0; i < msgNum; i++ {
-		messages = append(messages, fmt.Sprintf("gen a message %s", time.Now()))
+		messages = append(messages, fmt.Sprintf("%d gen a message %s", i, time.Now()))
 	}
 
 	err := lib.Produce(ctx, topic, messages)
@@ -25,7 +25,7 @@ func ProduceActivity(ctx context.Context) (string, error) {
 	return fmt.Sprintf("produce %d messages", msgNum), nil
 }
 
-func ConsumeActivity(ctx context.Context) (string, error) {
+func Consume(ctx context.Context) (string, error) {
 	topic := "test"
 	const msgNum = 5
 
