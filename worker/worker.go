@@ -22,7 +22,7 @@ func Produce() {
 	// This worker hosts both Workflow and Activity functions
 	w := worker.New(c, lib.ProduceTaskQueue, worker.Options{})
 	w.RegisterWorkflow(workflow.MainProduceWorkflow)
-	//w.RegisterWorkflow(app.ProduceWorkflow)
+	w.RegisterWorkflow(workflow.SubProduceWorkflow)
 	w.RegisterActivity(activity.Produce)
 
 	// Start listening to the Task Queue
@@ -43,7 +43,7 @@ func Consume() {
 	// This worker hosts both Workflow and Activity functions
 	w := worker.New(c, lib.ConsumeTaskQueue, worker.Options{})
 	w.RegisterWorkflow(workflow.MainConsumeWorkflow)
-	//w.RegisterWorkflow(app.ConsumeWorkflow)
+	w.RegisterWorkflow(workflow.SubConsumeWorkflow)
 	w.RegisterActivity(activity.Consume)
 
 	// Start listening to the Task Queue
