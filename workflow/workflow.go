@@ -35,11 +35,11 @@ func SubProduceWorkflow(ctx workflow.Context) (string, error) {
 }
 
 func MainProduceWorkflow(ctx workflow.Context) (string, error) {
-	return "Main Produce workflow started", nil
+	return "Main Produce workflow finished", nil
 }
 
 func MainConsumeWorkflow(ctx workflow.Context) (string, error) {
-	return "Main Consume workflow started", nil
+	return "Main Consume workflow finished", nil
 }
 
 func SubConsumeWorkflow(ctx workflow.Context) (string, error) {
